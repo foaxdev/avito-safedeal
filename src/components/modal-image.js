@@ -52,18 +52,18 @@ export default class ModalImage extends AbstractComponent {
   }
 
   setButtonCloseEscHandler(handler) {
-    this.getElement().querySelector(`.image__toggle`).addEventListener(`keydown`, handler);
+    document.addEventListener(`keydown`, handler);
     this._onCloseButtonEsc = handler;
   }
 
   setFormSubmitHandler(handler) {
-    this.getElement().querySelector(`.comment-form`).addEventListener(`keydown`, handler);
+    this.getElement().querySelector(`.comment-form`).addEventListener(`submit`, handler);
     this._onFormSubmit = handler;
   }
 
   removeModalHandlers() {
-    this.getElement().querySelector(`.image__toggle`).removeEventListener(`keydown`, this._onCloseButtonEsc);
-    this.getElement().querySelector(`.image__toggle`).removeEventListener(`keydown`, this._onCloseButtonClick);
-    this.getElement().querySelector(`.comment-form`).removeEventListener(`keydown`, this._onFormSubmit);
+    this.getElement().querySelector(`.image__toggle`).removeEventListener(`click`, this._onCloseButtonEsc);
+    document.removeEventListener(`keydown`, this._onCloseButtonClick);
+    this.getElement().querySelector(`.comment-form`).removeEventListener(`submit`, this._onFormSubmit);
   }
 }
