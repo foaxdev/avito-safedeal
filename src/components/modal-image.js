@@ -1,11 +1,14 @@
 import AbstractComponent from "./abstract-component";
 import {createItems} from "../utils/render";
+import moment from "moment";
 
 const getCommentHtml = (commentData) => {
+  const date = moment(commentData.date).format(`DD.MM.YYYY`);
+  const datetime = moment(commentData.date).format(`YYYY-MM-DDThh:mm:ssTZD`);
+
   return(`
     <li class="comments-list__items" data-id="${commentData.id}">
-    <!-- TODO: format dates -->
-      <time class="comments-list__date" datetime="${commentData.date}">{imageData.date}</time>
+      <time class="comments-list__date" datetime="${datetime}">${date}</time>
       <p class="comments-list__comment">${commentData.text}</p>
     </li>
   `);
@@ -14,14 +17,16 @@ const getCommentHtml = (commentData) => {
 const createModalImageTemplate = (imageData) => {
   return (`
     <div class="image">
-      <button class="image__toggle" type="button">Закрыть окно</button>
+      <button class="image__toggle" type="button">Закрыть окно
+        <svg width="18" height="18" viewBox="0 0 20 19" xmlns="http://www.w3.org/2000/svg"><line x1="1.35355" y1="0.646447" x2="19.3536" y2="18.6464"/><line x1="0.646447" y1="18.6464" x2="18.6464" y2="0.646446"/></svg>
+      </button>
       <img class="image__full-image" src="${imageData.url}" alt="Большое изображение">
+      <ul class="comments-list">${createItems(imageData.comments, getCommentHtml)}</ul>
       <form class="comment-form" method="post" autocomplete="off">
         <input class="comment-form__name" name="name" type="text" placeholder="Ваше имя" aria-label="Введите ваше имя">
         <input class="comment-form__comment" name="comment" type="text" placeholder="Ваш комментарий" aria-label="Введите комментарий">
         <button class="comment-form__submit-button" type="submit">Оставить комментарий</button>
       </form>
-      <ul class="comments-list">${createItems(imageData.comments, getCommentHtml)}</ul>
      </div>
   `);
 };
