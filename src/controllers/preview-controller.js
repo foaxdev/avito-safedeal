@@ -39,6 +39,7 @@ export default class PreviewController {
       this._overlayElement.classList.remove('overlay--show');
       this._mainContainerElement.classList.remove(`body--no-scroll`);
       this._modalImageComponent.removeModalHandlers();
+      this._modalElement.innerHTML = ``;
     });
     this._modalImageComponent.setButtonCloseEscHandler((evt) => {
       if (evt.key === Key.ESCAPE) {
@@ -46,6 +47,7 @@ export default class PreviewController {
         this._overlayElement.classList.remove('overlay--show');
         this._mainContainerElement.classList.remove(`body--no-scroll`);
         this._modalImageComponent.removeModalHandlers();
+        this._modalElement.innerHTML = ``;
       }
     });
   }
