@@ -1,0 +1,126 @@
+@font-face {
+  font-family: "Roboto Condensed";
+  src: url("../fonts/roboto-condensed-v18-latin-regular.woff2") format("woff2"), url("../fonts/roboto-condensed-v18-latin-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+
+  font-family: "Roboto Condensed", "Arial", sans-serif;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.visually-hidden:not(:focus):not(:active),
+input[type="checkbox"].visually-hidden,
+input[type="radio"].visually-hidden,
+input[type="file"].visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+
+  white-space: nowrap;
+
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.header {
+  margin: 15px 40px 30px 40px;
+
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 42px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.preview-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.preview-list__item {
+  margin: 0 20px 30px 20px;
+}
+
+.preview-list__image {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+.preview-list__image:hover,
+.preview-list__image:focus {
+  box-shadow: 0 6px 21px 0 rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+  padding: 20px;
+
+  border-top: 1px solid #CCCCCC;
+}
+
+.copyrights {
+  font-size: 14px;
+  line-height: 16px;
+  color: #CCCCCC;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .main {
+    min-height: calc(100vh - 72px);
+  }
+
+  .preview-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 768px;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+
+  .preview-list__item {
+    width: 229px;
+    margin: 0 20px 30px 0;
+  }
+
+  .preview-list__item:nth-child(3n) {
+    margin-right: 0;
+  }
+}

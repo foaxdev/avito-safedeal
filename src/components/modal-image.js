@@ -1,12 +1,12 @@
 import AbstractComponent from "./abstract-component";
 import {createItems} from "../utils/render";
 
-const getCommentHtml = (imageData) => {
+const getCommentHtml = (commentData) => {
   return(`
-    <li class="comments-list__items">
+    <li class="comments-list__items" data-id="${commentData.id}">
     <!-- TODO: format dates -->
-      <time class="comments-list__date" datetime="${imageData.date}">{imageData.date}</time>
-      <p class="comments-list__comment">${imageData.text}</p>
+      <time class="comments-list__date" datetime="${commentData.date}">{imageData.date}</time>
+      <p class="comments-list__comment">${commentData.text}</p>
     </li>
   `);
 };
