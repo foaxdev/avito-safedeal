@@ -1,1 +1,7 @@
-# avito-safedeal
+# Тестовое задание. Авито. Safedeal.
+
+Установка зависимостей `npm i`
+
+Сборка проекта `npm run build`
+
+Запуск проекта `npm start`
