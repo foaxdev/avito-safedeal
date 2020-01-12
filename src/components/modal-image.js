@@ -14,7 +14,7 @@ const getCommentHtml = (commentData) => {
   `);
 };
 
-const createModalImageTemplate = (imageData) => {
+const createModalImageTemplate = (imageData, submitButtonText) => {
   return (`
     <div class="image">
       <button class="image__toggle" type="button">Закрыть окно
@@ -22,10 +22,10 @@ const createModalImageTemplate = (imageData) => {
       </button>
       <img class="image__full-image" src="${imageData.url}" alt="Большое изображение">
       <ul class="comments-list">${createItems(imageData.comments, getCommentHtml)}</ul>
-      <form class="comment-form" method="post" autocomplete="off">
+      <form class="comment-form" method="post" autocomplete="off" action="#">
         <input class="comment-form__name" name="name" type="text" placeholder="Ваше имя" aria-label="Введите ваше имя">
         <input class="comment-form__comment" name="comment" type="text" placeholder="Ваш комментарий" aria-label="Введите комментарий">
-        <button class="comment-form__submit-button" type="submit">Оставить комментарий</button>
+        <button class="comment-form__submit-button" type="submit">${submitButtonText}</button>
       </form>
      </div>
   `);
@@ -40,10 +40,41 @@ export default class ModalImage extends AbstractComponent {
     this._onCloseButtonClick = null;
     this._onCloseButtonEsc = null;
     this._onFormSubmit = null;
+
+    this._commentField = this.getElement().querySelector(`.comments-list`);
+    this._submitButton = this.getElement().querySelector(`.comment-form__submit-button`);
   }
 
   getTemplate() {
-    return createModalImageTemplate(this._imageData);
+    return createModalImageTemplate(this._imageData, `Оставить комментарий`);
+  }
+
+  updateData(newImageData) {
+    this._imageData = newImageData;
+  }
+  getData() {
+    const form = this.getElement().querySelector(`.comment-form`);
+    return new FormData(form);
+  }
+
+  setNewSubmitButtonText(buttonText) {
+    this._submitButton.textContent = buttonText;
+  }
+
+  disableOrUnableSubmitButton(toDisable) {
+    toDisable ? this._submitButton.setAttribute(`disabled`, `disabled`) : this._submitButton.removeAttribute(`disabled`);
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  emptyCommentField() {
+    this._commentField.innerHTML = ``;
+  }
+
+  updateCommentField() {
+    this._commentField.innerHTML = createItems(this._imageData.comments, getCommentHtml);
   }
 
   setButtonCloseClickHandler(handler) {
@@ -65,5 +96,12 @@ export default class ModalImage extends AbstractComponent {
     this.getElement().querySelector(`.image__toggle`).removeEventListener(`click`, this._onCloseButtonEsc);
     document.removeEventListener(`keydown`, this._onCloseButtonClick);
     this.getElement().querySelector(`.comment-form`).removeEventListener(`submit`, this._onFormSubmit);
+  }
+
+  recoveryListeners() {
+    super.recoveryListeners();
+    this.setButtonCloseEscHandler(this._onCloseButtonEsc);
+    this.setButtonCloseClickHandler(this._onCloseButtonClick);
+    this.setFormSubmitHandler(this._onFormSubmit);
   }
 }

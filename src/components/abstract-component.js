@@ -22,6 +22,21 @@ export default class AbstractComponent {
     return this._element;
   }
 
+  rerender() {
+    const oldElement = this.getElement();
+    const parent = oldElement.parentElement;
+
+    this.removeElement();
+
+    const newElement = this.getElement();
+
+    parent.replaceChild(newElement, oldElement);
+
+    this.recoveryListeners();
+  }
+
+  recoveryListeners() {}
+
   removeElement() {
     this._element = null;
   }

@@ -1,15 +1,30 @@
 import Preview from "../components/preview";
 import {render, RenderPosition} from "../utils/render";
-import ModalImage from "../components/modal-image";
 import Api from "../api";
-import {END_POINT, Key} from "../const";
+import {END_POINT, Key, SHAKE_ANIMATION_TIMEOUT} from "../const";
+import Image from "../models/image";
+import ModalImage from "../components/modal-image";
+
+const parseFormData = (formData) => {
+  return new Image({
+    'comments': {
+      'text': formData.get(`comment`),
+      'date': new Date().getTime()
+    }
+  });
+};
 
 export default class PreviewController {
 
-  constructor(container) {
+  constructor(container, imagesModel, onDataChange) {
     this._container = container;
     this._previewComponent = null;
     this._modalImageComponent = null;
+
+    this._imageData = {};
+    this._newImageData = {};
+    this._onDataChange = onDataChange;
+
     this._mainContainerElement = document.querySelector(`.body`);
     this._modalElement = document.querySelector(`.modal`);
     this._overlayElement = document.querySelector(`.overlay`);
@@ -26,11 +41,29 @@ export default class PreviewController {
 
       const api = new Api(END_POINT);
       api.getImageInfo(this._previewComponent.getId()).then((imageData) => {
+        this._imageData = imageData;
+        this._newImageData = this._imageData;
         this._modalImageComponent = new ModalImage(imageData);
         render(this._modalElement, this._modalImageComponent, RenderPosition.BEFOREEND);
         this._setEventListenersToModalElements();
       });
     });
+  }
+
+  shake() {
+    this._modalElement.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this._modalElement.style.animation = ``;
+
+      this._modalImageComponent.setNewSubmitButtonText(`Оставить комментарий`);
+      this._modalImageComponent.disableOrUnableSubmitButton(false);
+    }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  updateCommentField() {
+    this._modalImageComponent.emptyCommentField();
+    this._modalImageComponent.updateCommentField();
   }
 
   _setEventListenersToModalElements() {
@@ -50,6 +83,28 @@ export default class PreviewController {
         this._modalElement.innerHTML = ``;
       }
     });
+    this._modalImageComponent.setFormSubmitHandler((evt) => {
+      evt.preventDefault();
+      const formData = this._modalImageComponent.getData();
+      const data = parseFormData(formData);
+      this._updateImageData(data.comments);
+      this._modalImageComponent.setNewSubmitButtonText(`Добавляем...`);
+      this._modalImageComponent.disableOrUnableSubmitButton(true);
+      this._onDataChange(
+        this,
+        this._modalImageComponent,
+        Object.assign(
+          {},
+          this._imageData,
+          this._newImageData
+        ),
+        this._imageData
+      );
+    });
+  }
+
+  _updateImageData(commentData) {
+    this._newImageData.comments.push(commentData);
   }
 }
 

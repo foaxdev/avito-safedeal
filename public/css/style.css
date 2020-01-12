@@ -14,6 +14,28 @@
   font-display: swap;
 }
 
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
 html {
   box-sizing: border-box;
 }
@@ -242,6 +264,15 @@ input[type="file"].visually-hidden {
   color: #4997D0;
 
   background-color: #FFFFFF;
+}
+
+.comment-form__submit-button:disabled,
+.comment-form__submit-button:hover:disabled,
+.comment-form__submit-button:focus:disabled {
+  color: #FFFFFF;
+
+  background-color: #88A8BF;
+  border-color: #88A8BF;
 }
 
 @media (min-width: 768px) {
