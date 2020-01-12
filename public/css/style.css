@@ -318,7 +318,14 @@ input[type="file"].visually-hidden {
   }
 
   .comments-list {
+    position: absolute;
+    right: 30px;
+
     margin: 0 0 0 15px;
+    width: 33%;
+    height: calc(100% - 60px);
+
+    overflow: auto;
   }
 
   .comment-form {
