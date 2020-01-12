@@ -317,6 +317,11 @@ input[type="file"].visually-hidden {
     height: 205px;
   }
 
+  .image__toggle:hover line,
+  .image__toggle:focus line {
+    stroke: #4997D0;
+  }
+
   .comments-list {
     position: absolute;
     right: 30px;
